@@ -7,7 +7,7 @@ require "pry"
 class CLI
     
     @@prompt = TTY::Prompt.new
-    # @@user = nil
+    @@user = nil
     @@font = TTY::Font.new(:doom)
     #add picture of pilgrim hat/turkey
     #add animated arrows
@@ -48,12 +48,11 @@ class CLI
         system('clear')
         self.logo
         choice = @@prompt.select("Choose an Option") do |prompt|
-            prompt.choice "Enter Username"
-            #password method
+            prompt.choice "Login"
             prompt.choice "Main Menu"
         end 
         case choice
-        when "Enter Username"
+        when "Login"
             username = @@prompt.ask("Username:")
             password = @@prompt.mask("Password:")
             # User.find_by
@@ -74,7 +73,7 @@ class CLI
         when "Create User"
             username = @@prompt.ask("Username:")
             password = @@prompt.mask("Password:")
-            @user = User.create(username: username, password: password)
+            @@user = User.create(username: username, password: password)
             system('clear')
             CLI.main_menu
         when "Main Menu"

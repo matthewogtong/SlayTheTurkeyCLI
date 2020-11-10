@@ -62,7 +62,7 @@ class CLI
             @user = User.find_by(username: username, password: password)
             if @user 
                 system('clear')
-                self.select_character_screen
+                self.select_character
             else
                 system('clear')
                 self.logo
@@ -95,10 +95,6 @@ class CLI
             CLI.main_menu
         end 
     end #create_user
-
-    # def login_main_menu
-        
-    # end
     
     def self.delete_user
         system('clear')
@@ -149,12 +145,12 @@ class CLI
     # end #manual
     
 
-    def self.select_character_screen
+    def self.select_character
         system('clear')
         self.logo
-        choice = @@prompt.select("Choose a Character") do |prompt|
-            prompt.choice "Thomas Smith"
-            prompt.choice "Elizabeth Holmsworth"
+        choice = @@prompt.select("Choose a Character") do |p|
+            p.choice "Thomas Smith"
+            p.choice "Elizabeth Holmsworth"
         end
         case choice
         when "Thomas Smith"

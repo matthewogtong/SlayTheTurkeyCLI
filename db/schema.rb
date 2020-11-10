@@ -10,13 +10,20 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 4) do
+ActiveRecord::Schema.define(version: 8) do
 
   create_table "characters", force: :cascade do |t|
     t.string "name"
     t.integer "power"
     t.integer "money"
     t.integer "hp"
+    t.boolean "is_alive"
+  end
+
+  create_table "doors", force: :cascade do |t|
+    t.string "riddle"
+    t.integer "answer"
+    t.boolean "solved"
   end
 
   create_table "games", force: :cascade do |t|
@@ -25,6 +32,8 @@ ActiveRecord::Schema.define(version: 4) do
     t.boolean "game_won"
     t.integer "user_id"
     t.integer "character_id"
+    t.integer "monster_id"
+    t.integer "door_id"
   end
 
   create_table "items", force: :cascade do |t|
@@ -35,9 +44,16 @@ ActiveRecord::Schema.define(version: 4) do
     t.integer "game_id"
   end
 
+  create_table "monsters", force: :cascade do |t|
+    t.string "name"
+    t.integer "power"
+    t.integer "hp"
+    t.boolean "is_alive"
+  end
+
   create_table "users", force: :cascade do |t|
     t.string "username"
     t.string "password"
   end
-  
+
 end

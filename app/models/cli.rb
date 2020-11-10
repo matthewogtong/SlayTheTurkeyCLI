@@ -74,6 +74,8 @@ class CLI
             username = @@prompt.ask("Username:")
             password = @@prompt.mask("Password:")
             @@user = User.create(username: username, password: password)
+            puts "#{username} has been created!"
+            sleep(3)
             system('clear')
             CLI.main_menu
         when "Main Menu"
@@ -84,15 +86,25 @@ class CLI
     def login_main_menu
         
     end
-    # def self.delete_user
-    #     choice = @@prompt.select("Choose an Option") do |prompt|
-    #         prompt.choice "Go back to title screen"
-    #     end
-    #     @@prompt.ask("Please type in the user you want to delete:") #do |q|
-    #     # q.validate { |input| input =~ /^[^\.]+\.[^\.]+/ }
-    #     @@prompt.ask("Please type in your password:") 
-    #     @@prompt.ask("Are you sure?")
-    # end #delete_user
+    
+    def self.delete_user
+        system('clear')
+        self.logo
+        choice = @@prompt.select("Choose an Option") do |prompt|
+            prompt.choice "Delete User"
+            prompt.choice "Main Menu"
+        end 
+        case choice
+        when "Delete User"
+            username = @@prompt.ask("Username:")
+            password = @@prompt.mask("Password:")
+            User.all.select {|user| user.destroy if user.username == username && user.password == password}
+            system('clear')
+            CLI.main_menu
+        when "Main Menu"
+            CLI.main_menu
+        end 
+    end #delete_user
 
     # def self.manual
     #     choice = @@prompt.select("Choose an Option") do |prompt|

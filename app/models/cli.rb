@@ -61,9 +61,10 @@ class CLI
                 self.select_character_screen
             else
                 system('clear')
-                puts "Invalid username or password"
+                self.logo
+                puts "Invalid Username or Password!"
                 sleep(3)
-                self.main_menu
+                self.login
             end
         when "Main Menu"
             CLI.main_menu
@@ -91,9 +92,9 @@ class CLI
         end 
     end #create_user
 
-    def login_main_menu
+    # def login_main_menu
         
-    end
+    # end
     
     def self.delete_user
         system('clear')
@@ -104,9 +105,22 @@ class CLI
         end 
         case choice
         when "Delete User"
+            system('clear')
+            self.logo
             username = @@prompt.ask("Username:")
             password = @@prompt.mask("Password:")
-            User.all.select {|user| user.username == username && user.password == password ? (user.destroy) : (puts "Invalid username or password")} 
+            User.all.select do |user| 
+                if user.username == username && user.password == password 
+                    user.destroy
+                    puts "User Deleted!"
+                    sleep(3)
+                    CLI.main_menu
+                else
+                    puts "Invalid Username or Password!"
+                    sleep(3)
+                    self.delete_user
+                end
+            end 
             sleep(3)
             system('clear')
             CLI.main_menu
@@ -116,6 +130,8 @@ class CLI
     end #delete_user
 
     # def self.manual
+        # system('clear')
+        # self.logo
     #     choice = @@prompt.select("Choose an Option") do |prompt|
     #         prompt.choice "Read the instructions"
     #         prompt.choice "Go back to title screen"

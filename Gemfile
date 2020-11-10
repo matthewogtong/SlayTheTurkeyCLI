@@ -10,5 +10,5 @@ gem "rake"
 
 
 gem "tty-prompt"
-gem "tty-table"
 gem 'tty-font'
+gem "tty-table"

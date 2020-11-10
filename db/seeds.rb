@@ -47,8 +47,6 @@ Game.create([
 Character.create([
     {name: 'Thomas Smith', power: 5, money: 2, hp: 1},
     {name: 'Elizabeth Holmsworth', power: 3, money: 4, hp: 1},
-    {name: 'Yam Destroyer', power: 2, hp: 1},
-    {name: "The Turkey", power: 10, hp: 5}
 ])
 
 # thomas = Character.first

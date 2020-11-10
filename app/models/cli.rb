@@ -1,5 +1,4 @@
 require "tty-prompt"
-require "tty-table"
 require "tty-font"
 require "pry"
 
@@ -9,6 +8,10 @@ class CLI
     @@prompt = TTY::Prompt.new
     @@user = nil
     @@font = TTY::Font.new(:doom)
+    # @@table = TTY::Table.new do |t|
+    #     t << ["a1", "a2"]
+    #     t << ["b1", "b2"]
+    #   end
     #add picture of pilgrim hat/turkey
     #add animated arrows
 
@@ -26,6 +29,7 @@ class CLI
     def self.main_menu
         system('clear')
         self.logo
+        # puts @@table.render(:ascii)
         choice = @@prompt.select("Choose an Option") do |prompt|
             prompt.choice "Log In"
             prompt.choice "Create User"
@@ -143,12 +147,20 @@ class CLI
     #         end
     #     end
     # end #manual
+    
 
     def self.select_character_screen
         system('clear')
         self.logo
-        puts "hello"
-        sleep(3)
+        choice = @@prompt.select("Choose a Character") do |prompt|
+            prompt.choice "Thomas Smith"
+            prompt.choice "Elizabeth Holmsworth"
+        end
+        case choice
+        when "Thomas Smith"
+            
+        end
     end
+
 
 end #.class CLI

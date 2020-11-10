@@ -149,8 +149,8 @@ class CLI
         system('clear')
         self.logo
         choice = @@prompt.select("Choose a Character") do |p|
-            p.choice "Thomas Smith"
-            p.choice "Elizabeth Holmsworth"
+            p.choice "Thomas Smith - Strong! Lacking in funds."
+            p.choice "Elizabeth Holmsworth - "
         end
         case choice
         when "Thomas Smith"

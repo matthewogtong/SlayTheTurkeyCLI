@@ -1,0 +1,3 @@
+self.delete_user
+- outputs 2 "invalid inputs" , should return one
+

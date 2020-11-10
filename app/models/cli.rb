@@ -55,8 +55,16 @@ class CLI
         when "Login"
             username = @@prompt.ask("Username:")
             password = @@prompt.mask("Password:")
-            # User.find_by
-            # self.login_main_menu
+            @user = User.find_by(username: username, password: password)
+            if @user 
+                system('clear')
+                self.select_character_screen
+            else
+                system('clear')
+                puts "Invalid username or password"
+                sleep(3)
+                self.main_menu
+            end
         when "Main Menu"
             CLI.main_menu
         end 
@@ -98,7 +106,8 @@ class CLI
         when "Delete User"
             username = @@prompt.ask("Username:")
             password = @@prompt.mask("Password:")
-            User.all.select {|user| user.destroy if user.username == username && user.password == password}
+            User.all.select {|user| user.username == username && user.password == password ? (user.destroy) : (puts "Invalid username or password")} 
+            sleep(3)
             system('clear')
             CLI.main_menu
         when "Main Menu"
@@ -118,5 +127,12 @@ class CLI
     #         end
     #     end
     # end #manual
+
+    def self.select_character_screen
+        system('clear')
+        self.logo
+        puts "hello"
+        sleep(3)
+    end
 
 end #.class CLI

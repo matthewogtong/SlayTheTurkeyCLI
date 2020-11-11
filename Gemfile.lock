@@ -72,6 +72,7 @@ PLATFORMS
 
 DEPENDENCIES
   activerecord (~> 5.2)
+  pastel
   pry
   rake
   require_all

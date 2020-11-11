@@ -9,6 +9,8 @@ gem "require_all"
 gem "rake"
 
 
+
 gem "tty-prompt"
 gem 'tty-font'
 gem "tty-table"
+gem "pastel"

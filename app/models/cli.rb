@@ -7,11 +7,15 @@ class CLI
     
     @@prompt = TTY::Prompt.new
     @@user = nil
+    @@current_game = nil
     @@font = TTY::Font.new(:doom)
-    # @@table = TTY::Table.new do |t|
-    #     t << ["a1", "a2"]
-    #     t << ["b1", "b2"]
-    #   end
+    @@table = TTY::Table.new(
+        header: ["⚔","🚪", "⚔"], 
+        rows: [["⚔", "💰", "⚔"], 
+        ["⚔", "⚔", "⚔"],
+        ["⚔", "⚔", "⚔"]]
+    )
+        # table[0,0]    # => "a1"
     #add picture of pilgrim hat/turkey
     #add animated arrows
 
@@ -29,7 +33,6 @@ class CLI
     def self.main_menu
         system('clear')
         self.logo
-        # puts @@table.render(:ascii)
         choice = @@prompt.select("Choose an Option") do |prompt|
             prompt.choice "Log In"
             prompt.choice "Create User"
@@ -59,8 +62,8 @@ class CLI
         when "Login"
             username = @@prompt.ask("Username:")
             password = @@prompt.mask("Password:")
-            @user = User.find_by(username: username, password: password)
-            if @user 
+            @@user = User.find_by(username: username, password: password)
+            if @@user 
                 system('clear')
                 self.select_character
             else
@@ -110,8 +113,8 @@ class CLI
             username = @@prompt.ask("Username:")
             password = @@prompt.mask("Password:")
             User.all.select do |user| 
-                if user.username == username && user.password == password 
-                    user.destroy
+                if user.username == username && user.password == password
+                    User.destroy(user.id)
                     puts "User Deleted!"
                     sleep(3)
                     CLI.main_menu
@@ -137,7 +140,7 @@ class CLI
     #         prompt.choice "Go back to title screen"
     #         case choice
     #         when "Go back to title screen"
-    #             CLI.run
+    #             CLI.run 
     #         when "Read the instructions"
     #             puts "These are the instructions to play the game"
     #         end
@@ -149,13 +152,44 @@ class CLI
         system('clear')
         self.logo
         choice = @@prompt.select("Choose a Character") do |p|
-            p.choice "Thomas Smith - Strong! Lacking in funds."
-            p.choice "Elizabeth Holmsworth - "
+            p.choice "Thomas Smith"
+            p.choice "Elizabeth Holmsworth"
         end
         case choice
         when "Thomas Smith"
-            
+            thomas = Character.create({name: 'Thomas Smith', power: 5, money: 2, hp: 1, is_alive: true})
+            @@current_game = Game.create({level_count: 0, move_count: 0, game_won: false})
+            @@current_game.character = thomas
+            @@current_game.user = @@user
+            thomas.save
+            @@current_game.save
+            self.game_start
+        when "Elizabeth Holmsworth"
+            liz = Character.create({name: 'Elizabeth Holmsworth', power: 3, money: 4, hp: 1, is_alive: true})
+            @@current_game = Game.create({level_count: 0, move_count: 0, game_won: false})
+            @@current_game.character = liz
+            @@current_game.user = @@user
+            liz.save
+            @@current_game.save
+            self.game_start
         end
+    end
+
+    #Game Components -----------------------------------------------------
+    def self.game_header
+        puts @@font.write("LEVEL 1", letter_spacing: 2)
+    end
+    
+    def self.game_map
+        system('clear')
+        self.game_header
+        puts @@table.render(:ascii, padding: 2)
+    end
+    
+    def self.game_start
+        sleep(2)
+        system('clear')
+        self.game_map
     end
 
 

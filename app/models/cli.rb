@@ -13,7 +13,82 @@ class CLI
     @@font = TTY::Font.new(:doom)
     @@character = nil
     # table_emojis = [🪓", "🦆", "👨‍🌾", "🧝‍♀️", " 🥔", " 🦾", " 🦿", "🌿", "🐇", "🍄", "🗡️"]
+    #ASCII ART ---------------------------------------------------------------
+    def self.rabbit_ascii
+        a_art = <<-HRD
+        *             +      / |   ,-~ /             +
+     .              Y :|  //  /                .         *
+         .          | jj /( .^     *
+               *    >-"~"-v"              .        *        .
+*                  /       Y
+   .     .        jo  o    |     .            +
+                 ( ~T~     j                     +     .
+      +           >._-' _./         +
+               /| ;-"~ _  l
+  .           / l/ ,-"~    \     +
+              \//\/      .- \
+       +       Y        /    Y
+               l       I     !
+               ]\      _\    /"\
+              (" ~----( ~   Y.  )
+          ~~~~~~~~~~~~~~~~~~~~~~~~~~
+          HRD
+          puts a_art
+    end
     
+    def self.boar_ascii
+        a_art = <<-HRD
+
+        _,-""""-..__
+        |`,-'_. `  ` ``  `--'""".
+        ;  ,'  | ``  ` `  ` ```  `.
+      ,-'   ..-' ` ` `` `  `` `  ` |==.
+    ,'    ^    `  `    `` `  ` `.  ;   \
+   `}_,-^-   _ .  ` \ `  ` __ `   ;    #
+      `"---"' `-`. ` \---""`.`.  `;
+                 \\` ;       ; `. `,
+                  ||`;      / / | |
+                 //_;`    ,_;' ,_;"
+        
+        
+     HRD
+
+        puts a_art
+    end
+
+    def self.duck_ascii
+        a_art = <<-HRD
+
+        .-""-.
+        /      \
+       /     (0 \______
+       |         "_____)
+       \        ,-----'
+        \_    _/
+         /    \
+        /      \
+       /        \
+      /          \
+     /        :   |
+    /     ;   :   |
+\\\     /  _.-'    :   |
+\\\\  / _'        :   |
+\\\\/ ;         :   /
+\\  ;         :   /
+\   `._`-'_.'  _/
+\     ''' _.-'
+ \      / /
+jgs  \    / /
+   \  /)(_______
+    )(_________<
+   (__________<
+
+
+        HRD
+
+        puts a_art
+    end
+    #---------------------------------------------------------------
     @@table_boar = TTY::Table.new do |t|
         t << ["5th Path", "🐗", "🐗"]
         t << ["4th Path", "🦿", " 🥔"]
@@ -99,7 +174,7 @@ class CLI
         when "Create User"
             username = @@prompt.ask("Username:")
             password = @@prompt.mask("Password:")
-            @@user = User.create(username: username, password: password)
+            User.create(username: username, password: password)
             puts "#{username} has been created!"
             sleep(3)
             system('clear')
@@ -142,20 +217,32 @@ class CLI
         end 
     end #delete_user
 
-    # def self.manual
-        # system('clear')
-        # self.logo
-    #     choice = @@prompt.select("Choose an Option") do |prompt|
-    #         prompt.choice "Read the instructions"
-    #         prompt.choice "Go back to title screen"
-    #         case choice
-    #         when "Go back to title screen"
-    #             CLI.run 
-    #         when "Read the instructions"
-    #             puts "These are the instructions to play the game"
-    #         end
-    #     end
-    # end #manual
+    def self.manual
+        system('clear')
+        self.logo
+        choice = @@prompt.select("Choose an Option") do |prompt|
+            prompt.choice "View User Manual"
+            prompt.choice "Go Back to Title Screen"
+        end
+        case choice
+        when "Go Back to Title Screen"
+            self.main_menu
+        when "View User Manual"
+            system('clear')
+            self.logo
+            puts "The game consists of two levels and five path choices per level." 
+            puts "Move through both levels, choosing a path at each choice."
+            puts "Defeat the obstacles in your way to secure your family's well-being in the New World!"
+            puts "Happy Thanksgiving"
+            choice = @@prompt.select("Choose an Option") do |prompt|
+                prompt.choice "Go Back to Title Screen"
+            end
+            case choice
+            when "Go Back to Title Screen"
+                self.main_menu
+            end
+        end
+    end #manual
     
 
     def self.select_character
@@ -232,8 +319,10 @@ class CLI
                 self.second_level_third_choice
             elsif @@current_game.move_count == 6
                 self.second_level_fourth_choice
+            elsif @@current_game.move_count == 7
+                self.second_level_fourth_choice
             end
-        when "Check stats"
+        when "Check Stats"
             puts "Your character has #{@@current_game.character.hp} HP and #{@@current_game.character.power} Strength."
             second_choice = @@prompt.select("What would you like to do next?") do |p|
                 p.choice "Proceed"
@@ -264,7 +353,7 @@ class CLI
     end
 
     def self.only_proceed_option
-        choice = @@prompt.select("What would you like to do next?") do |p|
+        choice = @@prompt.select("Time to push onward.") do |p|
             p.choice "Proceed"
         end
         case choice
@@ -276,19 +365,24 @@ class CLI
             elsif @@current_game.move_count == 3
                 self.level_fourth_choice
             elsif @@current_game.move_count == 4
-                self.second_level_second_choice
+                self.second_level_first_choice
             elsif @@current_game.move_count == 5
-                self.second_level_third_choice
+                self.second_level_second_choice
             elsif @@current_game.move_count == 6
+                self.second_level_third_choice
+            elsif @@current_game.move_count == 7
                 self.second_level_fourth_choice
             end
         end
     end
 
+    #Path Options-------------------------------------------------------------------------------
+
     def self.power_up_path
         puts "You come across an axe lying on the ground. Huzzah!"
         puts "You grab the axe and feel your Strength grow..."
         puts "Your Strength increases by 2"
+        sleep(3)
         @@current_game.character.power += 2
         self.proceed_option
     end
@@ -297,13 +391,17 @@ class CLI
         puts "You come across a delicious looking mushroom, you are inclined to eat it."
         puts "You see strange shapes and colors - you're hallucinating!"
         puts "You lose 4 Strength"
+        sleep(3)
         @@current_game.character.power -= 4
         self.proceed_option
     end
 
     def self.rabbit
+        system('clear')
+        self.rabbit_ascii
         puts "You come across a seemingly harmless rabbit."
         puts "It claws your face and you lose 3 HP!"
+        sleep(3)
         @@current_game.character.hp -= 3
         if @@current_game.character.hp < 1
             self.game_lose
@@ -315,30 +413,40 @@ class CLI
     def self.potato_path
         puts "A field of wild Potatoes, you're very hungry... eat it!"
         puts "You gain 3 HP!"
-        sleep(3)
+        sleep(5)
         @@current_game.character.hp += 3
         self.boar_fight
     end
     
     def self.bionic_leg
         puts "You come across a glow from within the forest - suddenly and without warning, your leg is replaced with some foreign parts... it feels strong!"
-        puts "You gain 5 Strength!!"
-        sleep(3)
+        puts "You gain 5 Strength!"
+        sleep(5)
         @@current_game.character.power -= 5
-        self.turkey_fight
+        self.boar_fight
     end
 
     def self.strange_plant
-        puts "smokes it"
-        puts "Blah blah"
-        sleep(3)
+        puts "A green herb grows from the ground... this may be suitable in my pipe..."
+        puts "You gain 4 Stregnth!"
+        sleep(5)
         @@current_game.character.power += 4
+        self.boar_fight
+    end
+
+    def self.bionic_arm
+        puts "You come across a glow from within the forest - suddenly and without warning, your arm is replaced with some foreign parts... it feels strong!"
+        puts "You gain 5 Stregnth!"
+        sleep(5)
+        @@current_game.character.power += 5
         self.turkey_fight
     end
 
+    #-------------------------------------------------------------------------------------------------------------------
+
     def self.duck_attack_sequence
         system('clear')
-        #insert art of duck
+        self.duck_ascii
         puts "You have #{@@current_game.character.power} Strength and #{@@current_game.character.hp} HP. "
         choice = @@prompt.select("") do |p|
             p.choice "Attack"
@@ -353,7 +461,7 @@ class CLI
                 @@current_game.character.power += 2
                 puts "Well done, you defeated a duck. You ought to be proud of youself."
                 puts "You gain 2 Strength."
-                sleep(2)
+                sleep(5)
                 self.only_proceed_option
             else
                 @@current_game.character.hp -= 2
@@ -364,7 +472,7 @@ class CLI
                     puts "You were defeated by a duck..."
                     puts "You lose 2 HP and 2 Strength"
                     puts "You decide to leave the duck alone as you are too ashamed of the events that have transpired."
-                    sleep(2)
+                    sleep(5)
                     self.only_proceed_option
                 end
             end
@@ -410,7 +518,7 @@ class CLI
 
     def self.boar_fight
         system('clear')
-        #insert art of boar
+        self.boar_ascii
         puts "You see a boar - it seems to be charging at you!"
         puts "Fleeing is not an option!"
         puts "You have #{@@current_game.character.power} Strength and #{@@current_game.character.hp} HP. "
@@ -430,22 +538,21 @@ class CLI
                 puts "You rummage through the forest and manage to escape."
                 puts "Your journey is near its end as you can hear the screech of the Turkey coming from the Marshlands."
                 puts "Nowhere to go now but forward..."
-                sleep(4)
-                self.second_level_first_choice
+                @@current_game.move_count = 4
+                self.only_proceed_option
             else
                 @@current_game.character.hp -= 3
                 puts "The boar's tusks tore right through you!"
                 puts "You lose 3 HP"
-                sleep(4)
+                sleep(5)
                 if @@current_game.character.hp < 1
                     self.game_lose
                 else
                     puts "You are heavily wounded but still mangage to elude the boar."
-                    puts "You rummage through the forest and manage to escape."
                     puts "Your journey is near its end as you can hear the screech of the Turkey from the Marshlands."
                     puts "Nowhere to go now but forward..."
-                    sleep(4)
-                    self.second_level_first_choice
+                    @@current_game.move_count = 4
+                    self.only_proceed_option
                 end
             end
         end   
@@ -627,10 +734,10 @@ class CLI
         end
         case choice
         when "Right Path" 
-            @@current_game.move_count = 4
+            @@current_game.move_count = 5
             self.power_up_path
         when "Left Path" 
-            @@current_game.move_count = 4
+            @@current_game.move_count = 5
             self.rabbit
         end
     end
@@ -643,10 +750,10 @@ class CLI
         end
         case choice
         when "Right Path" 
-            @@current_game.move_count = 5
+            @@current_game.move_count = 6
             self.duck_fight
         when "Left Path" 
-            @@current_game.move_count = 5
+            @@current_game.move_count = 6
             self.power_up_path
         end
     end
@@ -659,10 +766,10 @@ class CLI
         end
         case choice
         when "Right Path" 
-            @@current_game.move_count = 6
+            @@current_game.move_count = 7
             self.mushroom
         when "Left Path" 
-            @@current_game.move_count = 6
+            @@current_game.move_count = 7
             self.duck_fight
         end
     end

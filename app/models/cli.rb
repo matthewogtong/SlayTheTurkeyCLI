@@ -12,7 +12,7 @@ class CLI
     @@current_game = nil
     @@font = TTY::Font.new(:doom)
     @@character = nil
-    # table_emojis = ["💰", "💪", "🪓", "🦆", "👨‍🌾","🧝‍♀️", " 🥔"]
+    # table_emojis = ["💰", "💪", "🪓", "🦆", "👨‍🌾","🧝‍♀️", " 🥔", " 🦾", " 🦿", " 🌿"]
     @@table_boar = TTY::Table.new do |t|
         t << ["🐗", "🐗"]
         t << ["💪", " 🥔"]
@@ -227,6 +227,12 @@ class CLI
                 self.level_third_choice
             elsif @@current_game.move_count == 3
                 self.level_fourth_choice
+            elsif @@current_game.move_count == 4
+                self.second_level_second_choice
+            elsif @@current_game.move_count == 5
+                self.second_level_third_choice
+            elsif @@current_game.move_count == 6
+                self.second_level_fourth_choice
             end
         when "Check stats"
             puts "Your character has #{@@current_game.character.money} money and #{@@current_game.character.power} power."
@@ -241,6 +247,12 @@ class CLI
                     self.level_third_choice
                 elsif @@current_game.move_count == 3
                     self.level_fourth_choice
+                elsif @@current_game.move_count == 4
+                    self.second_level_second_choice
+                elsif @@current_game.move_count == 5
+                    self.second_level_third_choice
+                elsif @@current_game.move_count == 6
+                    self.second_level_fourth_choice
                 end
             end
         when "Exit to Main Menu (Warning - You will lose all progress)"
@@ -264,6 +276,12 @@ class CLI
                 self.level_third_choice
             elsif @@current_game.move_count == 3
                 self.level_fourth_choice
+            elsif @@current_game.move_count == 4
+                self.second_level_second_choice
+            elsif @@current_game.move_count == 5
+                self.second_level_third_choice
+            elsif @@current_game.move_count == 6
+                self.second_level_fourth_choice
             end
         end
     end
@@ -290,6 +308,30 @@ class CLI
         self.boar_fight
     end
     
+    def self.bionic_leg
+        puts "Equips bionic leg"
+        puts "Blah blah"
+        sleep(3)
+        @@current_game.character.power += 5
+        self.boar_fight
+    end
+
+    def self.bionic_arm
+        puts "Equips bionic arm"
+        puts "Blah blah"
+        sleep(3)
+        @@current_game.character.power += 5
+        self.turkey_fight
+    end
+
+    def self.strange_plant
+        puts "smokes it"
+        puts "Blah blah"
+        sleep(3)
+        @@current_game.character.power += 4
+        self.turkey_fight
+    end
+
     def self.duck_attack_sequence
         system('clear')
         #insert art of duck
@@ -319,6 +361,7 @@ class CLI
     end
 
     def self.duck_fight
+        system('clear')
         puts "You see a duck. It doesn't seem to be aggresive."
         choice = @@prompt.select("What would you like to do next?") do |p|
             p.choice "Proceed"
@@ -334,6 +377,12 @@ class CLI
                 self.level_third_choice
             elsif @@current_game.move_count == 3
                 self.level_fourth_choice
+            elsif @@current_game.move_count == 4
+                self.second_level_second_choice
+            elsif @@current_game.move_count == 5
+                self.second_level_third_choice
+            elsif @@current_game.move_count == 6
+                self.second_level_fourth_choice
             end
         when "Check stats"
             puts "Your character has #{@@current_game.character.money} money and #{@@current_game.character.power} power."
@@ -348,6 +397,12 @@ class CLI
                     self.level_third_choice
                 elsif @@current_game.move_count == 3
                     self.level_fourth_choice
+                elsif @@current_game.move_count == 4
+                    self.second_level_second_choice
+                elsif @@current_game.move_count == 5
+                    self.second_level_third_choice
+                elsif @@current_game.move_count == 6
+                    self.second_level_fourth_choice
                 end
             end
         when "Attack"
@@ -382,8 +437,9 @@ class CLI
                 @@current_game.character.power += 4
                 puts "Nice, you beat a boar, good for you!"
                 puts "You gained +4 to your power"
+                puts "You will now be entering level 2"
                 sleep(3)
-                self.game_map_second_level
+                self.second_level_first_choice
             else
                 @@current_game.character.hp -= 3
                 puts "The boar's tusks tore right through you!"
@@ -392,13 +448,15 @@ class CLI
                 if @@current_game.character.hp < 1
                     self.game_lose
                 else
-                    self.only_proceed_option
+                    puts "You are heavily wounded but still mangage to elude the boar."
+                    puts "Proceed further to Level 2!"
+                    self.second_level_first_choice
                 end
             end
         end   
     end
 
-    def self.tukery_fight
+    def self.turkey_fight
         puts "A beast emerges from the dense fog... a... turkey? A wretched beast of a turkey!!!"
         puts "Fleeing is not an option, take heed and smite the beast from whence it came!!!"
         puts "You have #{@@current_game.character.power} power and #{@@current_game.character.hp} hp. "
@@ -424,7 +482,7 @@ class CLI
                 if @@current_game.character.hp < 1
                     self.game_lose
                 else
-                    self.only_proceed_option
+                    self.tf_stage_two
                 end
             end
         end   
@@ -559,11 +617,9 @@ class CLI
         end
         case choice
         when "Right Path" #move character location to path on board
-            @@current_game.move_count = 4
             self.potato_path
         when "Left Path" #move character location to path on board
-            @@current_game.move_count = 4
-            self.power_up_path
+            self.bionic_leg
         end
     end
 
@@ -577,10 +633,10 @@ class CLI
         end
         case choice
         when "Right Path" #move character location to path on board
-            @@current_game.move_count = 1
+            @@current_game.move_count = 4
             self.duck_fight #this will be a random space
         when "Left Path" #move character location to path on board
-            @@current_game.move_count = 1
+            @@current_game.move_count = 4
             self.power_up_path
         end
     end
@@ -594,11 +650,11 @@ class CLI
         end
         case choice
         when "Right Path" #move character location to path on board
-            @@current_game.move_count = 2
+            @@current_game.move_count = 5
             self.money_path
         when "Left Path" #move character location to path on board
-            @@current_game.move_count = 2
-            self.boar_fight
+            @@current_game.move_count = 5
+            self.power_up_path
         end
     end
 
@@ -611,10 +667,10 @@ class CLI
         end
         case choice
         when "Right Path" #move character location to path on board
-            @@current_game.move_count = 3
+            @@current_game.move_count = 6
             self.money_path
         when "Left Path" #move character location to path on board
-            @@current_game.move_count = 3
+            @@current_game.move_count = 6
             self.power_up_path
         end
     end
@@ -628,12 +684,11 @@ class CLI
         end
         case choice
         when "Right Path" #move character location to path on board
-            @@current_game.move_count = 4
-            self.money_path
+            self.bionic_arm
         when "Left Path" #move character location to path on board
-            @@current_game.move_count = 4
-            self.power_up_path
+            self.strange_plant
         end
+        # one more unique path for Boar Fight, two more for Turkey Fight
     end
 
 end #.class CLI

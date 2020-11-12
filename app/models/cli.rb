@@ -12,22 +12,21 @@ class CLI
     @@current_game = nil
     @@font = TTY::Font.new(:doom)
     @@character = nil
-    # table_emojis = ["💰", "💪", "🪓", "🦆", "👨‍🌾","🧝‍♀️", " 🥔", " 🦾", " 🦿", " 🌿"]
+    # table_emojis = [🪓", "🦆", "👨‍🌾", "🧝‍♀️", " 🥔", " 🦾", " 🦿", "🌿", "🐇", "🍄", "🗡️"]
+    
     @@table_boar = TTY::Table.new do |t|
-        t << ["🐗", "🐗"]
-        t << ["💪", " 🥔"]
-        t << ["c1", "c2"]
-        t << ["d1", "d2"]
-        t << ["e1", "e2"]
-        t << ["Start", "Start"]
+        t << ["5th Path", "🐗", "🐗"]
+        t << ["4th Path", "🦿", " 🥔"]
+        t << ["3rd Path", "🦆", "🪓"]
+        t << ["2nd Path", "🐇", "🪓"]
+        t << ["1st Path", "🍄", "🦆"]
     end
     @@table_turkey = TTY::Table.new do |t|
-        t << ["🦃", "🦃"]
-        t << ["b1", "b2"]
-        t << ["c1", "c2"]
-        t << ["d1", "d2"]
-        t << ["e1", "e2"]
-        t << ["Start", "Start"]
+        t << ["5th Path", "🦃", "🦃"]
+        t << ["4th Path", "🌿", "🦾"]
+        t << ["3rd Path", "🦆", "🍄"]
+        t << ["2nd Path", "🗡️", "🦆"]
+        t << ["1st Path", "🐇", "🪓"]
     end
     #-----------------------------------------------------------------
     def run
@@ -168,8 +167,8 @@ class CLI
         end
         case choice
         when "👨‍🌾 Thomas Smith"
-            thomas = Character.create({name: 'Thomas Smith', power: 5, money: 2, hp: 1, is_alive: true})
-            @@current_game = Game.create({level_count: 0, move_count: 0, game_won: false})
+            thomas = Character.create({name: 'Thomas Smith', power: 5, hp: 10})
+            @@current_game = Game.create({move_count: 0})
             @@current_game.character = thomas
             @@character = @@current_game.character.name
             @@current_game.user = @@user
@@ -177,8 +176,8 @@ class CLI
             @@current_game.save
             self.game_start
         when "🧝‍♀️ Elizabeth Holmsworth"
-            liz = Character.create({name: 'Elizabeth Holmsworth', power: 3, money: 4, hp: 1, is_alive: true})
-            @@current_game = Game.create({level_count: 0, move_count: 0, game_won: false})
+            liz = Character.create({name: 'Elizabeth Holmsworth', power: 3, hp: 15})
+            @@current_game = Game.create({move_count: 0})
             @@current_game.character = liz
             @@character = @@current_game.character
             @@current_game.user = @@user
@@ -195,19 +194,19 @@ class CLI
     
     def self.game_map_first_level
         system('clear')
-        puts @@font.write("LEVEL ONE", letter_spacing: 2)
+        puts @@font.write("WOODED FOREST", letter_spacing: 2)
         puts @@table_boar.render(:ascii, padding: 2)
     end
 
     def self.game_map_second_level
         system('clear')
-        puts @@font.write("LEVEL TWO", letter_spacing: 2)
+        puts @@font.write("MARSHLAND", letter_spacing: 2)
         puts @@table_turkey.render(:ascii, padding: 2)
     end
 
     def self.game_start
         system('clear')
-        puts "You are entering Level 1!"
+        puts "You are now entering the Wooded Forest..."
         sleep(2)
         system('clear')
         self.level_first_choice
@@ -235,7 +234,7 @@ class CLI
                 self.second_level_fourth_choice
             end
         when "Check stats"
-            puts "Your character has #{@@current_game.character.money} money and #{@@current_game.character.power} power."
+            puts "Your character has #{@@current_game.character.hp} hp and #{@@current_game.character.power} power."
             second_choice = @@prompt.select("What would you like to do next?") do |p|
                 p.choice "Proceed"
             end
@@ -258,7 +257,7 @@ class CLI
         when "Exit to Main Menu (Warning - You will lose all progress)"
             system('clear')
             self.logo
-            puts "You wimped out, your family will not survive the winter."
+            puts "You lose all standing in your family and are sent back to England!"
             sleep(3)
             self.main_menu
         end
@@ -286,18 +285,31 @@ class CLI
         end
     end
 
-    def self.money_path
-        puts "Along your way you happen to find some money on the ground."
-        puts "Finders keepers, losers weepers."
-        @@current_game.character.money += 4
+    def self.power_up_path
+        puts "You come across an axe lying on the ground. Huzzah!"
+        puts "You grab the axe and feel your power grow..."
+        puts "Your power increases by 2"
+        @@current_game.character.power += 2
         self.proceed_option
     end
 
-    def self.power_up_path
-        puts "You come across an axe lying on the ground."
-        puts "You grab the axe cause why not. You feel your power grow..."
-        @@current_game.character.power += 2
+    def self.mushroom
+        puts "You come across a delicious looking mushroom, you are inclined to eat it."
+        puts "You see strange shapes and colors! You're hallucinating!"
+        puts "You lose 4 power"
+        @@current_game.character.power -= 4
         self.proceed_option
+    end
+
+    def self.rabbit
+        puts "You come across a seemingly harmless rabbit."
+        puts "It claws your face and you lose 3 hp!"
+        @@current_game.character.hp -= 3
+        if @@current_game.character.hp < 1
+            self.game_lose
+        else
+            self.only_proceed_option
+        end
     end
 
     def self.potato_path
@@ -352,10 +364,14 @@ class CLI
                 self.only_proceed_option
             else
                 @@current_game.character.hp -= 2
-                puts "You lost to a duck..."
-                puts "You lose 2 hp"
-                sleep(3)
-                self.only_proceed_option
+                if @@current_game.character.hp < 1
+                    self.game_lose
+                else
+                    puts "You lost to a duck..."
+                    puts "You lose 2 hp"
+                    sleep(3)
+                    self.only_proceed_option
+                end
             end
         end    
     end
@@ -438,18 +454,21 @@ class CLI
                 puts "Nice, you beat a boar, good for you!"
                 puts "You gained +4 to your power"
                 puts "You will now be entering level 2"
-                sleep(3)
+                sleep(4)
                 self.second_level_first_choice
             else
                 @@current_game.character.hp -= 3
                 puts "The boar's tusks tore right through you!"
                 puts "You lose 3 hp"
-                sleep(3)
+                sleep(4)
                 if @@current_game.character.hp < 1
                     self.game_lose
                 else
                     puts "You are heavily wounded but still mangage to elude the boar."
-                    puts "Proceed further to Level 2!"
+                    puts "You rummage through the forest and manage to escape"
+                    puts "Your journey is near its end as you can hear the screech of the Turkey from the Marshlands"
+                    puts "Nowhere to go now but forward..."
+                    sleep(4)
                     self.second_level_first_choice
                 end
             end
@@ -457,6 +476,8 @@ class CLI
     end
 
     def self.turkey_fight
+        system('clear')
+        #insert turkey art
         puts "A beast emerges from the dense fog... a... turkey? A wretched beast of a turkey!!!"
         puts "Fleeing is not an option, take heed and smite the beast from whence it came!!!"
         puts "You have #{@@current_game.character.power} power and #{@@current_game.character.hp} hp. "
@@ -544,7 +565,7 @@ class CLI
         system('clear')
         #put some art
         puts "All hope is lost! There's no surviving the long, cold winter that lies ahead!"
-        sleep(3)
+        sleep(5)
         self.main_menu
     end
 
@@ -552,143 +573,135 @@ class CLI
         system ('clear')
         #put some art
         puts "Rejoice! The mutant turkey sheds no more Pilgrim blood! Let us 'give thanks' for this bountiful meal!"
-        sleep(3)
+        sleep(5)
         self.main_menu
     end
+
     #Level One Choices -----------------------------------------------------
 
     def self.level_first_choice
-        #will need a character location corresponding to game map
         self.game_map_first_level
         choice = @@prompt.select("Select your first path wisely") do |p|
             p.choice "Right Path"
             p.choice "Left Path"
         end
         case choice
-        when "Right Path" #move character location to path on board
+        when "Right Path" 
             @@current_game.move_count = 1
-            self.duck_fight #this will be a random space
-        when "Left Path" #move character location to path on board
+            self.duck_fight 
+        when "Left Path"
             @@current_game.move_count = 1
-            self.power_up_path
+            self.mushroom
         end
     end
 
     def self.level_second_choice
-        #will need a character location corresponding to game map
         self.game_map_first_level
         choice = @@prompt.select("Select your second path wisely") do |p|
             p.choice "Right Path"
             p.choice "Left Path"
         end
         case choice
-        when "Right Path" #move character location to path on board
+        when "Right Path" 
             @@current_game.move_count = 2
-            self.money_path
-        when "Left Path" #move character location to path on board
+            self.power_up_path
+        when "Left Path" 
             @@current_game.move_count = 2
-            self.boar_fight
+            self.rabbit
         end
     end
 
     def self.level_third_choice
-        #will need a character location corresponding to game map
         self.game_map_first_level
         choice = @@prompt.select("Select your third path wisely") do |p|
             p.choice "Right Path"
             p.choice "Left Path"
         end
         case choice
-        when "Right Path" #move character location to path on board
-            @@current_game.move_count = 3
-            self.money_path
-        when "Left Path" #move character location to path on board
+        when "Right Path" 
             @@current_game.move_count = 3
             self.power_up_path
+        when "Left Path" 
+            @@current_game.move_count = 3
+            self.duck_fight
         end
     end
     
     def self.level_fourth_choice
-        #will need a character location corresponding to game map
         self.game_map_first_level
         choice = @@prompt.select("Select your fourth path wisely") do |p|
             p.choice "Right Path"
             p.choice "Left Path"
         end
         case choice
-        when "Right Path" #move character location to path on board
+        when "Right Path" 
             self.potato_path
-        when "Left Path" #move character location to path on board
+        when "Left Path" 
             self.bionic_leg
         end
     end
 
     #LEVEL TWO CHOICES------------------------------------------------------
     def self.second_level_first_choice
-        #will need a character location corresponding to game map
         self.game_map_second_level
         choice = @@prompt.select("Select your first path wisely") do |p|
             p.choice "Right Path"
             p.choice "Left Path"
         end
         case choice
-        when "Right Path" #move character location to path on board
-            @@current_game.move_count = 4
-            self.duck_fight #this will be a random space
-        when "Left Path" #move character location to path on board
+        when "Right Path" 
             @@current_game.move_count = 4
             self.power_up_path
+        when "Left Path" 
+            @@current_game.move_count = 4
+            self.rabbit
         end
     end
 
     def self.second_level_second_choice
-        #will need a character location corresponding to game map
         self.game_map_second_level
         choice = @@prompt.select("Select your second path wisely") do |p|
             p.choice "Right Path"
             p.choice "Left Path"
         end
         case choice
-        when "Right Path" #move character location to path on board
+        when "Right Path" 
             @@current_game.move_count = 5
-            self.money_path
-        when "Left Path" #move character location to path on board
+            self.duck_fight
+        when "Left Path" 
             @@current_game.move_count = 5
             self.power_up_path
         end
     end
 
     def self.second_level_third_choice
-        #will need a character location corresponding to game map
         self.game_map_second_level
         choice = @@prompt.select("Select your third path wisely") do |p|
             p.choice "Right Path"
             p.choice "Left Path"
         end
         case choice
-        when "Right Path" #move character location to path on board
+        when "Right Path" 
             @@current_game.move_count = 6
-            self.money_path
-        when "Left Path" #move character location to path on board
+            self.mushroom
+        when "Left Path" 
             @@current_game.move_count = 6
-            self.power_up_path
+            self.duck_fight
         end
     end
     
     def self.second_level_fourth_choice
-        #will need a character location corresponding to game map
         self.game_map_second_level
         choice = @@prompt.select("Select your fourth path wisely") do |p|
             p.choice "Right Path"
             p.choice "Left Path"
         end
         case choice
-        when "Right Path" #move character location to path on board
+        when "Right Path" 
             self.bionic_arm
-        when "Left Path" #move character location to path on board
+        when "Left Path" 
             self.strange_plant
         end
-        # one more unique path for Boar Fight, two more for Turkey Fight
     end
 
 end #.class CLI

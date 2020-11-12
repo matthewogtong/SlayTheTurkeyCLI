@@ -10,45 +10,18 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 11) do
+ActiveRecord::Schema.define(version: 14) do
 
   create_table "characters", force: :cascade do |t|
     t.string "name"
     t.integer "power"
-    t.integer "money"
     t.integer "hp"
-    t.boolean "is_alive"
-  end
-
-  create_table "doors", force: :cascade do |t|
-    t.string "riddle"
-    t.integer "answer"
-    t.boolean "solved"
-    t.integer "game_id"
   end
 
   create_table "games", force: :cascade do |t|
-    t.integer "level_count"
     t.integer "move_count"
-    t.boolean "game_won"
     t.integer "user_id"
     t.integer "character_id"
-  end
-
-  create_table "items", force: :cascade do |t|
-    t.string "name"
-    t.integer "money_up"
-    t.integer "power_up"
-    t.string "wisdom"
-    t.integer "game_id"
-  end
-
-  create_table "monsters", force: :cascade do |t|
-    t.string "name"
-    t.integer "power"
-    t.integer "hp"
-    t.boolean "is_alive"
-    t.integer "game_id"
   end
 
   create_table "users", force: :cascade do |t|

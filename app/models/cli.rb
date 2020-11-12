@@ -215,7 +215,7 @@ class CLI
     def self.proceed_option
         choice = @@prompt.select("What would you like to do next?") do |p|
             p.choice "Proceed"
-            p.choice "Check stats"
+            p.choice "Check Stats"
             p.choice "Exit to Main Menu (Warning - You will lose all progress)"
         end
         case choice
@@ -234,7 +234,7 @@ class CLI
                 self.second_level_fourth_choice
             end
         when "Check stats"
-            puts "Your character has #{@@current_game.character.hp} hp and #{@@current_game.character.power} power."
+            puts "Your character has #{@@current_game.character.hp} HP and #{@@current_game.character.power} Strength."
             second_choice = @@prompt.select("What would you like to do next?") do |p|
                 p.choice "Proceed"
             end
@@ -287,23 +287,23 @@ class CLI
 
     def self.power_up_path
         puts "You come across an axe lying on the ground. Huzzah!"
-        puts "You grab the axe and feel your power grow..."
-        puts "Your power increases by 2"
+        puts "You grab the axe and feel your Strength grow..."
+        puts "Your Strength increases by 2"
         @@current_game.character.power += 2
         self.proceed_option
     end
 
     def self.mushroom
         puts "You come across a delicious looking mushroom, you are inclined to eat it."
-        puts "You see strange shapes and colors! You're hallucinating!"
-        puts "You lose 4 power"
+        puts "You see strange shapes and colors - you're hallucinating!"
+        puts "You lose 4 Strength"
         @@current_game.character.power -= 4
         self.proceed_option
     end
 
     def self.rabbit
         puts "You come across a seemingly harmless rabbit."
-        puts "It claws your face and you lose 3 hp!"
+        puts "It claws your face and you lose 3 HP!"
         @@current_game.character.hp -= 3
         if @@current_game.character.hp < 1
             self.game_lose
@@ -313,26 +313,18 @@ class CLI
     end
 
     def self.potato_path
-        puts "Potato filler"
-        puts "Blah blah"
+        puts "A field of wild Potatoes, you're very hungry... eat it!"
+        puts "You gain 3 HP!"
         sleep(3)
         @@current_game.character.hp += 3
         self.boar_fight
     end
     
     def self.bionic_leg
-        puts "Equips bionic leg"
-        puts "Blah blah"
+        puts "You come across a glow from within the forest - suddenly and without warning, your leg is replaced with some foreign parts... it feels strong!"
+        puts "You gain 5 Strength!!"
         sleep(3)
-        @@current_game.character.power += 5
-        self.boar_fight
-    end
-
-    def self.bionic_arm
-        puts "Equips bionic arm"
-        puts "Blah blah"
-        sleep(3)
-        @@current_game.character.power += 5
+        @@current_game.character.power -= 5
         self.turkey_fight
     end
 
@@ -347,7 +339,7 @@ class CLI
     def self.duck_attack_sequence
         system('clear')
         #insert art of duck
-        puts "You have #{@@current_game.character.power} power and #{@@current_game.character.hp} hp. "
+        puts "You have #{@@current_game.character.power} Strength and #{@@current_game.character.hp} HP. "
         choice = @@prompt.select("") do |p|
             p.choice "Attack"
         end
@@ -359,17 +351,20 @@ class CLI
             puts "The duck rolled a #{duck_roll}."
             if player_roll > duck_roll
                 @@current_game.character.power += 2
-                puts "Nice, you beat a duck, good for you!"
-                puts "You gained +2 to your power"
+                puts "Well done, you defeated a duck. You ought to be proud of youself."
+                puts "You gain 2 Strength."
+                sleep(2)
                 self.only_proceed_option
             else
                 @@current_game.character.hp -= 2
+                @@current_game.character.hp -= 2 
                 if @@current_game.character.hp < 1
                     self.game_lose
                 else
-                    puts "You lost to a duck..."
-                    puts "You lose 2 hp"
-                    sleep(3)
+                    puts "You were defeated by a duck..."
+                    puts "You lose 2 HP and 2 Strength"
+                    puts "You decide to leave the duck alone as you are too ashamed of the events that have transpired."
+                    sleep(2)
                     self.only_proceed_option
                 end
             end
@@ -378,10 +373,10 @@ class CLI
 
     def self.duck_fight
         system('clear')
-        puts "You see a duck. It doesn't seem to be aggresive."
+        puts "You see a duck - it doesn't seem to be aggresive..."
+        puts "You have #{@@current_game.character.hp} HP and #{@@current_game.character.power} Stregnth."
         choice = @@prompt.select("What would you like to do next?") do |p|
             p.choice "Proceed"
-            p.choice "Check stats"
             p.choice "Attack"
             p.choice "Exit to Main Menu (Warning - You will lose all progress)"
         end
@@ -400,27 +395,6 @@ class CLI
             elsif @@current_game.move_count == 6
                 self.second_level_fourth_choice
             end
-        when "Check stats"
-            puts "Your character has #{@@current_game.character.money} money and #{@@current_game.character.power} power."
-            second_choice = @@prompt.select("What would you like to do next?") do |p|
-                p.choice "Proceed"
-            end
-            case second_choice
-            when "Proceed"
-                if @@current_game.move_count == 1
-                    self.level_second_choice
-                elsif @@current_game.move_count == 2
-                    self.level_third_choice
-                elsif @@current_game.move_count == 3
-                    self.level_fourth_choice
-                elsif @@current_game.move_count == 4
-                    self.second_level_second_choice
-                elsif @@current_game.move_count == 5
-                    self.second_level_third_choice
-                elsif @@current_game.move_count == 6
-                    self.second_level_fourth_choice
-                end
-            end
         when "Attack"
             puts "You decide to show the duck who's boss."
             sleep(2)
@@ -437,9 +411,9 @@ class CLI
     def self.boar_fight
         system('clear')
         #insert art of boar
-        puts "You see a boar. It seems to be charging at you."
-        puts "Fleeing is not an option."
-        puts "You have #{@@current_game.character.power} power and #{@@current_game.character.hp} hp. "
+        puts "You see a boar - it seems to be charging at you!"
+        puts "Fleeing is not an option!"
+        puts "You have #{@@current_game.character.power} Strength and #{@@current_game.character.hp} HP. "
         choice = @@prompt.select("") do |p|
             p.choice "Attack"
         end
@@ -452,21 +426,23 @@ class CLI
             if player_roll > boar_roll
                 @@current_game.character.power += 4
                 puts "Nice, you beat a boar, good for you!"
-                puts "You gained +4 to your power"
-                puts "You will now be entering level 2"
+                puts "You gain 4 Strength."
+                puts "You rummage through the forest and manage to escape."
+                puts "Your journey is near its end as you can hear the screech of the Turkey coming from the Marshlands."
+                puts "Nowhere to go now but forward..."
                 sleep(4)
                 self.second_level_first_choice
             else
                 @@current_game.character.hp -= 3
                 puts "The boar's tusks tore right through you!"
-                puts "You lose 3 hp"
+                puts "You lose 3 HP"
                 sleep(4)
                 if @@current_game.character.hp < 1
                     self.game_lose
                 else
                     puts "You are heavily wounded but still mangage to elude the boar."
-                    puts "You rummage through the forest and manage to escape"
-                    puts "Your journey is near its end as you can hear the screech of the Turkey from the Marshlands"
+                    puts "You rummage through the forest and manage to escape."
+                    puts "Your journey is near its end as you can hear the screech of the Turkey from the Marshlands."
                     puts "Nowhere to go now but forward..."
                     sleep(4)
                     self.second_level_first_choice
@@ -480,7 +456,7 @@ class CLI
         #insert turkey art
         puts "A beast emerges from the dense fog... a... turkey? A wretched beast of a turkey!!!"
         puts "Fleeing is not an option, take heed and smite the beast from whence it came!!!"
-        puts "You have #{@@current_game.character.power} power and #{@@current_game.character.hp} hp. "
+        puts "You have #{@@current_game.character.power} Strength and #{@@current_game.character.hp} HP. "
         choice = @@prompt.select("") do |p|
             p.choice "Attack"
         end
@@ -498,7 +474,7 @@ class CLI
             else
                 @@current_game.character.hp -= 3
                 puts "The Turkey's tusks tore right through you!"
-                puts "You lose 3 hp."
+                puts "You lose 3 HP."
                 sleep(3)
                 if @@current_game.character.hp < 1
                     self.game_lose
@@ -512,7 +488,7 @@ class CLI
     def self.tf_stage_two
         puts "The screetch of the massive foul mutes your hearing, you're wounded... do not give in!"
         @@current_game.character.power -= 5
-        puts "You have #{@@current_game.character.power} power and #{@@current_game.character.hp} hp. "
+        puts "You have #{@@current_game.character.power} Strength and #{@@current_game.character.hp} HP. "
         choice = @@prompt.select("") do |p|
             p.choice "Attack"
         end
@@ -528,8 +504,8 @@ class CLI
             else
                 @@current_game.character.hp -= 3
                 puts "The boar's tusks tore right through you!"
-                puts "You lose 3 hp"
-                puts "You now have #{@@current_game.character.hp} hp."
+                puts "You lose 3 HP"
+                puts "You now have #{@@current_game.character.hp} HP."
                 sleep(3)
                 if @@current_game.character.hp < 1
                     self.game_lose
@@ -581,7 +557,7 @@ class CLI
 
     def self.level_first_choice
         self.game_map_first_level
-        choice = @@prompt.select("Select your first path wisely") do |p|
+        choice = @@prompt.select("Select for 1st Path") do |p|
             p.choice "Right Path"
             p.choice "Left Path"
         end
@@ -597,7 +573,7 @@ class CLI
 
     def self.level_second_choice
         self.game_map_first_level
-        choice = @@prompt.select("Select your second path wisely") do |p|
+        choice = @@prompt.select("Select for 2nd Path") do |p|
             p.choice "Right Path"
             p.choice "Left Path"
         end
@@ -613,7 +589,7 @@ class CLI
 
     def self.level_third_choice
         self.game_map_first_level
-        choice = @@prompt.select("Select your third path wisely") do |p|
+        choice = @@prompt.select("Select for 3rd Path") do |p|
             p.choice "Right Path"
             p.choice "Left Path"
         end
@@ -629,7 +605,7 @@ class CLI
     
     def self.level_fourth_choice
         self.game_map_first_level
-        choice = @@prompt.select("Select your fourth path wisely") do |p|
+        choice = @@prompt.select("Select for 4th Path") do |p|
             p.choice "Right Path"
             p.choice "Left Path"
         end
@@ -642,9 +618,10 @@ class CLI
     end
 
     #LEVEL TWO CHOICES------------------------------------------------------
+
     def self.second_level_first_choice
         self.game_map_second_level
-        choice = @@prompt.select("Select your first path wisely") do |p|
+        choice = @@prompt.select("Select for 1st Path") do |p|
             p.choice "Right Path"
             p.choice "Left Path"
         end
@@ -660,7 +637,7 @@ class CLI
 
     def self.second_level_second_choice
         self.game_map_second_level
-        choice = @@prompt.select("Select your second path wisely") do |p|
+        choice = @@prompt.select("Select for 2nd Path") do |p|
             p.choice "Right Path"
             p.choice "Left Path"
         end
@@ -676,7 +653,7 @@ class CLI
 
     def self.second_level_third_choice
         self.game_map_second_level
-        choice = @@prompt.select("Select your third path wisely") do |p|
+        choice = @@prompt.select("Select for 3rd Path") do |p|
             p.choice "Right Path"
             p.choice "Left Path"
         end
@@ -692,7 +669,7 @@ class CLI
     
     def self.second_level_fourth_choice
         self.game_map_second_level
-        choice = @@prompt.select("Select your fourth path wisely") do |p|
+        choice = @@prompt.select("Select for 4th Path") do |p|
             p.choice "Right Path"
             p.choice "Left Path"
         end

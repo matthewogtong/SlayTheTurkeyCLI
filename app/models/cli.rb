@@ -18,7 +18,7 @@ class CLI
     #ASCII ART ---------------------------------------------------------------
 
     def self.rabbit_ascii
-        puts "
+        a_art = <<-HRD
         *             +      / |   ,-~ /             +
      .              Y :|  //  /                .         *
          .          | jj /( .^     *
@@ -35,6 +35,11 @@ class CLI
                ]\      _\    /`\
               (` ~----( ~   Y.  )
           ~~~~~~~~~~~~~~~~~~~~~~~~~~"
+                    HRD
+        
+
+
+        puts a_art
 
     end
     
@@ -45,9 +50,9 @@ class CLI
         ;  ,`  | ``  ` `  ` ```  `.
       ,-`   ..-` ` ` `` `  `` `  ` |``.
     ,`    ^    `  `    `` `  ` `.  ;   \
-   `}_,-^-   _ .  ` \ `  ` __ `   ;    @
-      `"---"' `-`. ` \---```.`.  `;
-                 \\` ;       ; `. `,
+   `}_,-^-   _ .  ` ' `  ` __ `   ;    @
+      `"---"' `-`. ` '---```.`.  `;
+                 ''` ;       ; `. `,
                   ||`;      / / | |
                  //_;`    ,_;' ,_;`
         HRD
@@ -55,18 +60,326 @@ class CLI
         puts a_art
     end
 
-    def self.render_duck_ascii
-        File.readlines("duck.txt") do |line|
-            puts line
-        end
+    def self.turkey_ascii
+        a_art = <<-HRD 
+                                      ____
+                                      :    :
+                  ___                 :____:
+          ___ ---\ ~~ /---___         :  []:
+          \   \ ~ \~ /~~~/~~~/     ----,-------
+        ,' \~~ \~~ \/ ~~/~~~/ `,     ,'  0 0 __
+       -_~~ \   \,------,  / ~ _`    ;    _____\
+      ;   - _ \,'^^^^^^^ ""`,_-  \   `, `--'; u
+      ; ~~   ,'^^^^-----------   /   ,'`,,,'
+      ;~ ---, ^^^,`__----,  ..`,/  ,'..,'
+      `,  ~ ,^^ <_'__--__ `, .. `,/ .. `
+       `,---` ^<________--  `, .. ..  ,'     ___ [] ___
+        `,---` <__ -__ ___  ,' .. . ,`     _/   \)(/   \_
+         `, --` <__ __ _  ,' ... _,`      /   /      \   \
+          `--,___<___   ,'`-___,'       ,'   :   |        `,
+                  <___,'(||)            :             :    :
+                    ||   ||             :    :   |         ;
+                  __||_ _||_            \_            :   _/
+                 // ;;\\ ;;\\             \_  \  |   /  _/
+                ~~     ~~   ~~              \__________/
+              HRD
+
+        puts a_art
+
     end
 
-    def self.render_ascii_art
-        File.readlines("pilgrim.txt") do |line|
-            puts line
-        end
+    def self.duck_ascii
+        a_art = <<-HRD
+        
+                ,~&.
+        (\_   (  e )>
+         ) `~~'   (
+        (   `-._)  )
+         `-._____,'  
+         HRD
+
+         puts a_art
     end
 
+    def self.mushroom_ascii
+        a_art = <<-HRD
+        
+        _,--'----'-'-'-   
+      ,'.  .            \
+    ,/:. .     .       .'
+    |;..  .      _..--'
+    `--:...-,-'""\
+            |:.  `.
+            l;.   l
+            `|:.   |
+             |:.   `.,
+            .l;.    j, ,
+         `. \`;:.   //,/
+          .\\)`;,|\'/(
+        HRD
+
+        puts a_art
+    end
+
+    def self.potato_emojis
+        puts "🥔🥔🥔🥔🥔🥔🥔🥔🥔🥔🥔🥔🥔🥔" * 100
+    end
+
+    def self.bionic_leg_ascii
+        a_art = <<-HRD
+      
+        \__/     /  \     /  \     \__/
+        |  |     ||||     ||||     |  |
+        |==|     ||||     ||||     |==|
+                 ||||     ||||
+                 ||||     ||||
+                 \__/     \__/
+                 /  \     /  \
+                 ||||     ||||
+                 ||||     ||||
+                 ||||     ||||
+               ,/|__|\   /|__|\,     
+              /--|__|-\ /-|__|--\
+             |___|  |_| |_|  |___|
+        HRD
+
+        puts a_art
+    end
+
+    def self.axe_ascii
+        a_art = <<-HRD
+                          _,,--.._
+                    /. ` ` .  `.
+                    )|       `  `.
+       .           / |         `  `
+        `.        / /            ` `
+         `.`.    / /              ` `
+           `.`.'' /                ' :
+            <','/'`                . ;
+           ,-'.-    `             , /
+       _.-',-^`       `      _.-----
+ /`==::.,-'     `       ` ,-'
+/ /               `     .;
+| |..               ` .,' `.
+| ':`....---.       ,'`'.   `.
+ .`:.:.:.:.:-..    /     `.   `.
+  .`ccoccoccoc'``./        `.   `.
+   `.`CQCCQCCCQCC/           `.   `.
+     `.`8O8O8O8O8(             `.   `.
+       `.`_-_@-@_-;              `. .'"'.
+            '""'                   :,' ,--'
+                                    `.` _,--
+             A                        `.  _,',.
+            (@)                         `. .-' `_
+                                          `. ,-^.`.
+               A                            `. - _.-.
+              (@)                             `.', ,'-
+                                                `. _,-`__
+                                                  `. _-,`|
+                                                    |,_-`|
+                                                    '----'
+        HRD
+
+        puts a_art
+    end
+
+    def self.strange_plant_ascii
+        a_art = <<-HRD
+                  |
+                 |.|
+                 |.|
+                |\./|
+                |\./|
+.               |\./|               .
+ \^.\          |\\.//|          /.^/
+  \--.|\       |\\.//|       /|.--/
+    \--.| \    |\\.//|    / |.--/
+     \---.|\    |\./|    /|.---/
+        \--.|\  |\./|  /|.--/
+           \ .\  |.|  /. /
+ _ -_^_^_^_-  \ \\ // /  -_^_^_^_- _
+   - -/_/_/- ^_^/| |\^_^ -\_\_\- -
+             /_ / | \ _\
+                  |
+        HRD
+
+        puts a_art
+    end
+
+    def self.bionic_arm_ascii
+        a_art = <<-HRD
+        |_|_|
+        |_|_|              _____
+        |_|_|     ____    |*_*_*|
+_______   _\__\___/ __ \____|_|_   _______
+/ ____  |=|      \  <_+>  /      |=|  ____ \
+~|    |\|=|======\\______//======|=|/|    |~
+|_   |    \      |      |      /    |    |
+\==-|     \     |  2D  |     /     |----|~~/
+|   |      |    |      |    |      |____/~/
+|   |       \____\____/____/      /    / /
+|   |         {----------}       /____/ /
+|___|        /~~~~~~~~~~~~\     |_/~|_|/
+ \_/        |/~~~~~||~~~~~\|     /__|\
+ | |         |    ||||    |     (/|| \)
+ | |        /     |  |     \       \\
+ |_|        |     |  |     |
+        HRD
+
+        puts a_art
+    end
+
+    def self.win_game_ascii
+        a_art = <<-HRD
+        .----------------------------------------------------------.
+        |                 "Eat the other White Meat"                |
+        |                __ __  ___  _____ _____ _  _               |
+        |                ||=|| ||=|| ||_// ||_// \\//               |
+        |                || || || || ||    ||     //                |
+        |____ __ __  ___  __ __ __ __ __ ___  __ __ __ __ __ __ ___ |
+        | ||  ||=|| ||=|| ||\|| ||<< (( (( __ || \\ // || ||\||(( __|
+        | ||  || || || || || \| || \\_)) \\|| ||  \V/  || || \| \\|||
+        |                                                           |
+        '._________________________________________________________.'
+           ,      \            .-""-._  | |
+           |'.    |\   ;.     /   _ .-\ | |
+     _     |  '.  | \  | '    |  ( o_O || |
+     \'-._ ;    \ |  ; '  \   \  `-/ `\/| |
+      \   'f     '|  '\|   ; /.`.__'  L | |
+       \    `\    ;    Y   |/ |  / | />)| |
+  _     ;     l   '     ;  |  | / /|/(< | |
+ `\'`'-._\     \   ;    |  ' .'/ |    )|| |
+   \     '-\    \   \  '__'_.-'  L   (_/| |
+    `.      `.   `._.-'"'``       '.   _| |
+,.-'"-.'.      `. ,"`                \"` |/`\
+'.      `'-._   7             "-._   \  |\_ |
+  `'-.__     '-'    ;             `-..|_|_|~
+  __,-'"'--.._'      \                     \
+._'           /        \                , _.`
+  '"'--;-''"<          `|\             _\ |
+  _.-'`   _;|             `"-.,___\--'' | |
+ `'-.,__..'  \                          | |
+       .'   .'.                         | |
+      /..-'`   \                      _/| |
+         /    .'7_                 _,'  | |
+        ;   ./   ;`'-,,_    ___.,-'"`mx | |
+        |_.';   /  |  \ \  | |  |       | |
+            |.-';  ;  '  ~~   ~~        | |
+                 \' \/   ||   ||        | |
+                         ||  _||__      | |
+                     _.-" '`"--.._'-._  | |
+                    r"-.,-''""---.\"-.\ |_|
+        HRD
+
+        puts a_art
+    end
+
+    def self.game_lose_ascii
+        a_art = <<-HRD
+                                            .""--..__
+                     _                     []       ``-.._
+                  .'` `'.                  ||__           `-._
+                 /    ,-.\                 ||_ ```---..__     `-.
+                /    /:::\\               /|//}          ``--._  `.
+                |    |:::||              |////}                `-. \
+                |    |:::||             //'///                    `.\
+                |    |:::||            //  ||'                      `|
+        jgs     /    |:::|/        _,-//\  ||
+        hh     /`    |:::|`-,__,-'`  |/  \ ||
+             /`  |   |'' ||           \   |||
+           /`    \   |   ||            |  /||
+         |`       |  |   |)            \ | ||
+        |          \ |   /      ,.__    \| ||
+        /           `         /`    `\   | ||
+       |                     /        \  / ||
+       |                     |        | /  ||
+       /         /           |        `(   ||
+      /          .           /          )  ||
+     |            \          |     ________||
+    /             |          /     `-------.|
+   |\            /          |              ||
+   \/`-._       |           /              ||
+    //   `.    /`           |              ||
+   //`.    `. |             \              ||
+  ///\ `-._  )/             |              ||
+ //// )   .(/               |              ||
+ ||||   ,'` )               /              //
+ ||||  /                    /             || 
+ `\\` /`                    |             // 
+     |`                     \            ||  
+    /                        |           //  
+  /`                          \         //   
+/`                            |        ||    
+`-.___,-.      .-.        ___,'        (/    
+         `---'`   `'----'`
+        HRD
+
+        puts a_art
+    end
+
+    def self.forest_ascii
+        a_art = <<-HRD
+                     ___
+                _,-'""   """"`--.
+             ,-'          __,,-- \
+           ,'    __,--""""dF      )
+          /   .-"Hb_,--""dF      /
+        ,'       _Hb ___dF"-._,-'
+      ,'      _,-""""   ""--..__
+     (     ,-'                  `.
+      `._,'     _   _             ;
+       ,'     ,' `-'Hb-.___..._,-'
+       \    ,'"Hb.-'HH`-.dHF"
+        `--'   "Hb  HH  dF"
+                "Hb HH dF
+                 "HbHHdF
+                  |HHHF
+                  |HHH|
+                  |HHH|
+                  |HHH|
+                  |HHH|
+                  dHHHb
+                .dFd|bHb.               o
+      o       .dHFdH|HbTHb.          o /
+\  Y  |  \__,dHHFdHH|HHhoHHb.__Krogg  Y
+##########################################
+
+        HRD
+
+        puts a_art
+    end
+
+    def self.marshlands_ascii
+        a_art = <<-HRD
+        .        +          .      .          .
+        .            _        .                    .
+     ,              /;-._,-.____        ,-----.__
+    ((        .    (_:#::_.:::. `-._   /:, /-._, `._,
+     `                 \   _|`"=:_::.`.);  \ __/ /
+                         ,    `./  \:. `.   )==-'  .
+       .      ., ,-=-.  ,\, +#./`   \:.  / /           .
+   .           \/:/`-' , ,\ '` ` `   ): , /_  -o
+          .    /:+- - + +- : :- + + -:'  /(o-) \)     .
+     .      ,=':  \    ` `/` ' , , ,:' `'--".--"---._/`7
+      `.   (    \: \,-._` ` + '\, ,"   _,--._,---":.__/
+                 \:  `  X` _| _,\/'   .-'
+   .               ":._:`\____  /:'  /      .           .
+                       \::.  :\/:'  /              +
+      .                 `.:.  /:'  }      .
+              .           ):_(:;   \           .
+                         /:. _/ ,  |
+                      . (|::.     ,`                  .
+        .                |::.    {\
+                         |::.\  \ `.
+                         |:::(\    |
+                 O       |:::/{ }  |                  (o
+                  )  ___/#\::`/ (O "==._____   O, (O  /`
+             ~~~w/w~"~~,\` `:/,-(~`"~~~~~~~~"~o~\~/~w|/~
+   dew   ~~~~~~~~~~~~~~~~~~~~~~~\\W~~~~~~~~~~~~\|/~~
+        HRD
+
+        puts a_art
+    end
     #---------------------------------------------------------------
     @@table_boar = TTY::Table.new do |t|
         t << ["5th Path", "🐗", "🐗"]
@@ -269,13 +582,16 @@ class CLI
     
     def self.game_map_first_level
         system('clear')
-        puts @@font.write("WOODED FOREST", letter_spacing: 2)
+        self.forest_ascii
+        puts @@font.write("THE FOREST", letter_spacing: 2)
+        self.forest_ascii
         puts @@table_boar.render(:ascii, padding: 2)
     end
 
     def self.game_map_second_level
         system('clear')
-        puts @@font.write("MARSHLAND", letter_spacing: 2)
+        self.marshlands_ascii
+        puts @@font.write("MARSHLANDS", letter_spacing: 2)
         puts @@table_turkey.render(:ascii, padding: 2)
     end
 
@@ -302,9 +618,9 @@ class CLI
             elsif @@current_game.move_count == 3
                 self.level_fourth_choice
             elsif @@current_game.move_count == 4
-                self.second_level_second_choice
+                self.second_level_first_choice
             elsif @@current_game.move_count == 5
-                self.second_level_third_choice
+                self.second_level_second_choice
             elsif @@current_game.move_count == 6
                 self.second_level_third_choice
             elsif @@current_game.move_count == 7
@@ -324,9 +640,9 @@ class CLI
                 elsif @@current_game.move_count == 3
                     self.level_fourth_choice
                 elsif @@current_game.move_count == 4
-                    self.second_level_second_choice
+                    self.second_level_first_choice
                 elsif @@current_game.move_count == 5
-                    self.second_level_third_choice
+                    self.second_level_second_choice
                 elsif @@current_game.move_count == 6
                     self.second_level_third_choice
                 elsif @@current_game.move_count == 7
@@ -369,15 +685,19 @@ class CLI
     #Path Options-------------------------------------------------------------------------------
 
     def self.power_up_path
+        system('clear')
+        self.axe_ascii
         puts "You come across an axe lying on the ground. Huzzah!"
         puts "You grab the axe and feel your Strength grow..."
         puts "Your Strength increases by 2"
-        sleep(3)
+        sleep(2)
         @@current_game.character.power += 2
         self.proceed_option
     end
 
     def self.mushroom
+        system('clear')
+        self.mushroom_ascii
         puts "You come across a delicious looking mushroom, you are inclined to eat it."
         puts "You see strange shapes and colors - you're hallucinating!"
         puts "You lose 4 Strength"
@@ -401,6 +721,8 @@ class CLI
     end
 
     def self.potato_path
+        system('clear')
+        self.potato_emojis
         puts "A field of wild Potatoes, you're very hungry... eat it!"
         puts "You gain 3 HP!"
         sleep(5)
@@ -409,25 +731,31 @@ class CLI
     end
     
     def self.bionic_leg
+        system('clear')
+        self.bionic_leg_ascii
         puts "You come across a glow from within the forest - suddenly and without warning, your leg is replaced with some foreign parts... it feels strong!"
         puts "You gain 5 Strength!"
-        sleep(5)
+        sleep(7)
         @@current_game.character.power += 5
         self.boar_fight
     end
 
     def self.strange_plant
+        system('clear')
+        self.strange_plant_ascii
         puts "A green herb grows from the ground... this may be suitable in my pipe..."
         puts "You gain 4 Stregnth!"
-        sleep(5)
+        sleep(6)
         @@current_game.character.power += 4
         self.turkey_fight
     end
 
     def self.bionic_arm
+        system('clear')
+        self.bionic_arm_ascii
         puts "You come across a glow from within the forest - suddenly and without warning, your arm is replaced with some foreign parts... it feels strong!"
         puts "You gain 5 Stregnth!"
-        sleep(5)
+        sleep(6)
         @@current_game.character.power += 5
         self.turkey_fight
     end
@@ -436,6 +764,7 @@ class CLI
 
     def self.duck_attack_sequence
         system('clear')
+        self.duck_ascii
         # self.render_duck_ascii
         puts "You have #{@@current_game.character.hp} HP and #{@@current_game.character.power} Strength."
         choice = @@prompt.select("") do |p|
@@ -470,6 +799,7 @@ class CLI
 
     def self.duck_fight
         system('clear')
+        self.duck_ascii
         # self.render_duck_ascii
         puts "You see a duck - it doesn't seem to be aggresive..."
         puts "You have #{@@current_game.character.hp} HP and #{@@current_game.character.power} Stregnth."
@@ -552,6 +882,7 @@ class CLI
 
     def self.turkey_fight
         system('clear')
+        self.turkey_ascii
         # self.turkey_ascii
         puts "A beast emerges from the dense fog... a... turkey? A wretched beast of a turkey!!!"
         puts "Fleeing is not an option, take heed and smite the beast from whence it came!!!"
@@ -571,7 +902,7 @@ class CLI
                 sleep(3)
                 self.tf_stage_two
             else
-                @@current_game.character.hp -= 3
+                @@current_game.character.hp -= 5
                 puts "The Turkey's tusks tore right through you!"
                 puts "You lose 3 HP."
                 sleep(3)
@@ -601,7 +932,7 @@ class CLI
                 sleep(3)
                 self.game_win
             else
-                @@current_game.character.hp -= 3
+                @@current_game.character.hp -= 4
                 puts "The boar's tusks tore right through you!"
                 puts "You lose 3 HP"
                 puts "You now have #{@@current_game.character.hp} HP."
@@ -638,17 +969,17 @@ class CLI
 
     def self.game_lose
         system('clear')
-        #put some art
+        self.game_lose_ascii
         puts "All hope is lost! There's no surviving the long, cold winter that lies ahead!"
-        sleep(5)
+        sleep(6)
         self.main_menu
     end
 
     def self.game_win
         system ('clear')
-        self.render_ascii_art
+        self.win_game_ascii
         puts "Rejoice! The mutant turkey sheds no more Pilgrim blood! Let us 'give thanks' for this bountiful meal!"
-        sleep(5)
+        sleep(7)
         self.main_menu
     end
 

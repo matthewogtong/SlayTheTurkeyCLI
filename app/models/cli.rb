@@ -3,7 +3,6 @@ require "tty-font"
 require "tty-table"
 require "pastel"
 require "pry"
-# require "./pilgrim.txt"
 
 
 class CLI
@@ -19,30 +18,28 @@ class CLI
     #ASCII ART ---------------------------------------------------------------
 
     def self.rabbit_ascii
-        a_art = <<-HRD
+        puts "
         *             +      / |   ,-~ /             +
      .              Y :|  //  /                .         *
          .          | jj /( .^     *
-               *    >-"~"-v"              .        *        .
+               *    >-`~`-v`              .        *        .
 *                  /       Y
    .     .        jo  o    |     .            +
                  ( ~T~     j                     +     .
       +           >._-' _./         +
-               /| ;-"~ _  l
-  .           / l/ ,-"~    \     +
+               /| ;-`~ _  l
+  .           / l/ ,-`~    \     +
               \//\/      .- \
        +       Y        /    Y
                l       I     !
-               ]\      _\    /"\
-              (" ~----( ~   Y.  )
-          ~~~~~~~~~~~~~~~~~~~~~~~~~~
-          HRD
-          puts a_art
+               ]\      _\    /`\
+              (` ~----( ~   Y.  )
+          ~~~~~~~~~~~~~~~~~~~~~~~~~~"
+
     end
     
     def self.boar_ascii
         a_art = <<-HRD
-
         _,-````-..__
         |`,-`_. `  ` ``  `--`````.
         ;  ,`  | ``  ` `  ` ```  `.
@@ -53,21 +50,19 @@ class CLI
                  \\` ;       ; `. `,
                   ||`;      / / | |
                  //_;`    ,_;' ,_;`
-        
-        
-     HRD
+        HRD
 
         puts a_art
     end
 
     def self.render_duck_ascii
-        File.readlines("./duck.txt") do |line|
+        File.readlines("duck.txt") do |line|
             puts line
         end
     end
 
     def self.render_ascii_art
-        File.readlines("./pilgrim.txt") do |line|
+        File.readlines("pilgrim.txt") do |line|
             puts line
         end
     end
@@ -219,7 +214,7 @@ class CLI
             puts "The game consists of two levels and five path choices per level." 
             puts "Move through both levels, choosing a path at each choice."
             puts "Defeat the obstacles in your way to secure your family's well-being in the New World!"
-            puts "Happy Thanksgiving"
+            puts "Happy Thanksgiving!"
             choice = @@prompt.select("Choose an Option") do |prompt|
                 prompt.choice "Go Back to Title Screen"
             end
@@ -432,7 +427,7 @@ class CLI
 
     def self.duck_attack_sequence
         system('clear')
-        self.render_duck_ascii
+        # self.render_duck_ascii
         puts "You have #{@@current_game.character.power} Strength and #{@@current_game.character.hp} HP. "
         choice = @@prompt.select("") do |p|
             p.choice "Attack"
@@ -467,7 +462,7 @@ class CLI
 
     def self.duck_fight
         system('clear')
-        self.render_duck_ascii
+        # self.render_duck_ascii
         puts "You see a duck - it doesn't seem to be aggresive..."
         puts "You have #{@@current_game.character.hp} HP and #{@@current_game.character.power} Stregnth."
         choice = @@prompt.select("What would you like to do next?") do |p|

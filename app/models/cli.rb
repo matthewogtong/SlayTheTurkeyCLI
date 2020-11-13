@@ -79,7 +79,7 @@ class CLI
         t << ["5th Path", "🦃", "🦃"]
         t << ["4th Path", "🌿", "🦾"]
         t << ["3rd Path", "🦆", "🍄"]
-        t << ["2nd Path", "🗡️", "🦆"]
+        t << ["2nd Path", "🪓", "🦆"]
         t << ["1st Path", "🐇", "🪓"]
     end
     #-----------------------------------------------------------------
@@ -98,7 +98,6 @@ class CLI
     def self.main_menu
         system('clear')
         self.logo
-        binding.pry
         choice = @@prompt.select("Choose an Option") do |p|
             p.choice "Log In"
             p.choice "Create User"
@@ -179,17 +178,15 @@ class CLI
             username = @@prompt.ask("Username:")
             password = @@prompt.mask("Password:")
             User.all.select do |user| 
+                # binding.pry
                 if user.username == username && user.password == password
                     User.destroy(user.id)
                     puts "User Deleted!"
                     sleep(3)
                     CLI.main_menu
-                else
-                    puts "Invalid Username or Password!"
-                    sleep(3)
-                    self.delete_user
                 end
             end 
+            puts "Invalid username or password!"
             sleep(3)
             system('clear')
             CLI.main_menu
@@ -232,6 +229,7 @@ class CLI
         choice = @@prompt.select("Choose a Character") do |p|
             p.choice "👨‍🌾 Thomas Smith"
             p.choice "🧝‍♀️ Elizabeth Holmsworth"
+            p.choice "🧙‍♂️ Beardy McBeardson"
         end
         case choice
         when "👨‍🌾 Thomas Smith"
@@ -244,12 +242,21 @@ class CLI
             @@current_game.save
             self.game_start
         when "🧝‍♀️ Elizabeth Holmsworth"
-            liz = Character.create({name: 'Elizabeth Holmsworth', power: 3, hp: 15})
+            liz = Character.create({name: 'Elizabeth Holmsworth', power: 3, hp: 10})
             @@current_game = Game.create({move_count: 0})
             @@current_game.character = liz
             @@character = @@current_game.character
             @@current_game.user = @@user
             liz.save
+            @@current_game.save
+            self.game_start
+        when "🧙‍♂️ Beardy McBeardson"
+            beard = Character.create({name: 'Elizabeth Holmsworth', power: 15, hp: 5})
+            @@current_game = Game.create({move_count: 0})
+            @@current_game.character = beard
+            @@character = @@current_game.character
+            @@current_game.user = @@user
+            beard.save
             @@current_game.save
             self.game_start
         end
@@ -299,7 +306,7 @@ class CLI
             elsif @@current_game.move_count == 5
                 self.second_level_third_choice
             elsif @@current_game.move_count == 6
-                self.second_level_fourth_choice
+                self.second_level_third_choice
             elsif @@current_game.move_count == 7
                 self.second_level_fourth_choice
             end
@@ -321,6 +328,8 @@ class CLI
                 elsif @@current_game.move_count == 5
                     self.second_level_third_choice
                 elsif @@current_game.move_count == 6
+                    self.second_level_third_choice
+                elsif @@current_game.move_count == 7
                     self.second_level_fourth_choice
                 end
             end
@@ -403,7 +412,7 @@ class CLI
         puts "You come across a glow from within the forest - suddenly and without warning, your leg is replaced with some foreign parts... it feels strong!"
         puts "You gain 5 Strength!"
         sleep(5)
-        @@current_game.character.power -= 5
+        @@current_game.character.power += 5
         self.boar_fight
     end
 
@@ -412,7 +421,7 @@ class CLI
         puts "You gain 4 Stregnth!"
         sleep(5)
         @@current_game.character.power += 4
-        self.boar_fight
+        self.turkey_fight
     end
 
     def self.bionic_arm
@@ -428,7 +437,7 @@ class CLI
     def self.duck_attack_sequence
         system('clear')
         # self.render_duck_ascii
-        puts "You have #{@@current_game.character.power} Strength and #{@@current_game.character.hp} HP. "
+        puts "You have #{@@current_game.character.hp} HP and #{@@current_game.character.power} Strength."
         choice = @@prompt.select("") do |p|
             p.choice "Attack"
         end
@@ -445,7 +454,6 @@ class CLI
                 sleep(5)
                 self.only_proceed_option
             else
-                @@current_game.character.hp -= 2
                 @@current_game.character.hp -= 2 
                 if @@current_game.character.hp < 1
                     self.game_lose
@@ -483,6 +491,8 @@ class CLI
             elsif @@current_game.move_count == 5
                 self.second_level_third_choice
             elsif @@current_game.move_count == 6
+                self.second_level_third_choice
+            elsif @@current_game.move_count == 7
                 self.second_level_fourth_choice
             end
         when "Attack"

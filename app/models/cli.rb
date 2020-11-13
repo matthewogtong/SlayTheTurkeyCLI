@@ -3,6 +3,7 @@ require "tty-font"
 require "tty-table"
 require "pastel"
 require "pry"
+# require "./pilgrim.txt"
 
 
 class CLI
@@ -12,8 +13,11 @@ class CLI
     @@current_game = nil
     @@font = TTY::Font.new(:doom)
     @@character = nil
+
     # table_emojis = [🪓", "🦆", "👨‍🌾", "🧝‍♀️", " 🥔", " 🦾", " 🦿", "🌿", "🐇", "🍄", "🗡️"]
+
     #ASCII ART ---------------------------------------------------------------
+
     def self.rabbit_ascii
         a_art = <<-HRD
         *             +      / |   ,-~ /             +
@@ -39,16 +43,16 @@ class CLI
     def self.boar_ascii
         a_art = <<-HRD
 
-        _,-""""-..__
-        |`,-'_. `  ` ``  `--'""".
-        ;  ,'  | ``  ` `  ` ```  `.
-      ,-'   ..-' ` ` `` `  `` `  ` |==.
-    ,'    ^    `  `    `` `  ` `.  ;   \
-   `}_,-^-   _ .  ` \ `  ` __ `   ;    #
-      `"---"' `-`. ` \---""`.`.  `;
+        _,-````-..__
+        |`,-`_. `  ` ``  `--`````.
+        ;  ,`  | ``  ` `  ` ```  `.
+      ,-`   ..-` ` ` `` `  `` `  ` |``.
+    ,`    ^    `  `    `` `  ` `.  ;   \
+   `}_,-^-   _ .  ` \ `  ` __ `   ;    @
+      `"---"' `-`. ` \---```.`.  `;
                  \\` ;       ; `. `,
                   ||`;      / / | |
-                 //_;`    ,_;' ,_;"
+                 //_;`    ,_;' ,_;`
         
         
      HRD
@@ -56,38 +60,18 @@ class CLI
         puts a_art
     end
 
-    def self.duck_ascii
-        a_art = <<-HRD
-
-        .-""-.
-        /      \
-       /     (0 \______
-       |         "_____)
-       \        ,-----'
-        \_    _/
-         /    \
-        /      \
-       /        \
-      /          \
-     /        :   |
-    /     ;   :   |
-\\\     /  _.-'    :   |
-\\\\  / _'        :   |
-\\\\/ ;         :   /
-\\  ;         :   /
-\   `._`-'_.'  _/
-\     ''' _.-'
- \      / /
-jgs  \    / /
-   \  /)(_______
-    )(_________<
-   (__________<
-
-
-        HRD
-
-        puts a_art
+    def self.render_duck_ascii
+        File.readlines("./duck.txt") do |line|
+            puts line
+        end
     end
+
+    def self.render_ascii_art
+        File.readlines("./pilgrim.txt") do |line|
+            puts line
+        end
+    end
+
     #---------------------------------------------------------------
     @@table_boar = TTY::Table.new do |t|
         t << ["5th Path", "🐗", "🐗"]
@@ -110,6 +94,7 @@ jgs  \    / /
     end
 
     def self.logo
+        # self.turkey_ascii
         puts @@font.write("SLAY THE TURKEY", letter_spacing: 2)
     end
 
@@ -118,6 +103,7 @@ jgs  \    / /
     def self.main_menu
         system('clear')
         self.logo
+        binding.pry
         choice = @@prompt.select("Choose an Option") do |p|
             p.choice "Log In"
             p.choice "Create User"
@@ -446,7 +432,7 @@ jgs  \    / /
 
     def self.duck_attack_sequence
         system('clear')
-        self.duck_ascii
+        self.render_duck_ascii
         puts "You have #{@@current_game.character.power} Strength and #{@@current_game.character.hp} HP. "
         choice = @@prompt.select("") do |p|
             p.choice "Attack"
@@ -459,7 +445,7 @@ jgs  \    / /
             puts "The duck rolled a #{duck_roll}."
             if player_roll > duck_roll
                 @@current_game.character.power += 2
-                puts "Well done, you defeated a duck. You ought to be proud of youself."
+                puts "Well done, you defeated a duck. You ought to be proud of yourself!"
                 puts "You gain 2 Strength."
                 sleep(5)
                 self.only_proceed_option
@@ -481,6 +467,7 @@ jgs  \    / /
 
     def self.duck_fight
         system('clear')
+        self.render_duck_ascii
         puts "You see a duck - it doesn't seem to be aggresive..."
         puts "You have #{@@current_game.character.hp} HP and #{@@current_game.character.power} Stregnth."
         choice = @@prompt.select("What would you like to do next?") do |p|
@@ -533,7 +520,7 @@ jgs  \    / /
             puts "The boar a #{boar_roll}."
             if player_roll > boar_roll
                 @@current_game.character.power += 4
-                puts "Nice, you beat a boar, good for you!"
+                puts "The mighty boar succumbs to your brute strength!"
                 puts "You gain 4 Strength."
                 puts "You rummage through the forest and manage to escape."
                 puts "Your journey is near its end as you can hear the screech of the Turkey coming from the Marshlands."
@@ -560,7 +547,7 @@ jgs  \    / /
 
     def self.turkey_fight
         system('clear')
-        #insert turkey art
+        # self.turkey_ascii
         puts "A beast emerges from the dense fog... a... turkey? A wretched beast of a turkey!!!"
         puts "Fleeing is not an option, take heed and smite the beast from whence it came!!!"
         puts "You have #{@@current_game.character.power} Strength and #{@@current_game.character.hp} HP. "
@@ -654,7 +641,7 @@ jgs  \    / /
 
     def self.game_win
         system ('clear')
-        #put some art
+        self.render_ascii_art
         puts "Rejoice! The mutant turkey sheds no more Pilgrim blood! Let us 'give thanks' for this bountiful meal!"
         sleep(5)
         self.main_menu
